@@ -29,7 +29,7 @@ export default function BlindnessPage() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-10 transition-opacity duration-1000" style={{ opacity: hint ? 1 : 0 }}>
           <div className="px-5 py-3 rounded-2xl bg-black/70 backdrop-blur-md border border-white/[0.06] text-center">
             <p className="text-[10px] font-mono text-white/30 tracking-wider uppercase">move your mouse — play with the light</p>
-            <p className="text-[10px] font-mono text-white/15 tracking-wider uppercase mt-1">sweep fast to reveal what you've been missing</p>
+            <p className="text-[10px] font-mono text-white/15 tracking-wider uppercase mt-1">sweep fast to reveal what you&apos;ve been missing</p>
           </div>
         </div>
       </div>
