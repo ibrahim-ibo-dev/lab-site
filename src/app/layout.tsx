@@ -25,11 +25,20 @@ export const metadata: Metadata = {
     siteName: "The Lab",
     locale: "en_US",
     url: "/",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "The Lab by Ibrahim Hussein",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Lab — Code & Psychology",
     description: "Interactive web experiments by Ibrahim Hussein.",
+    images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
   icons: { icon: "/favicon.svg" },
