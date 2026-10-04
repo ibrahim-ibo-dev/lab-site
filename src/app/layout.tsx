@@ -67,6 +67,9 @@ export const metadata: Metadata = {
     },
   },
   icons: { icon: "/favicon.svg" },
+  verification: {
+    google: "wKWJrIYHPaMID1jOpJwUKL-R8gI21Ut-laoXN7f_nXk",
+  },
   other: { "theme-color": "#07070E" },
 };
 

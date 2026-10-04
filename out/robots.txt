@@ -1,22 +1,22 @@
-User-agent: *
+User-Agent: *
 Allow: /
 
-User-agent: GPTBot
+User-Agent: GPTBot
 Allow: /
 
-User-agent: Google-Extended
+User-Agent: Google-Extended
 Allow: /
 
-User-agent: ChatGPT-User
+User-Agent: ChatGPT-User
 Allow: /
 
-User-agent: anthropic-ai
+User-Agent: anthropic-ai
 Allow: /
 
-User-agent: ClaudeBot
+User-Agent: ClaudeBot
 Allow: /
 
-User-agent: PerplexityBot
+User-Agent: PerplexityBot
 Allow: /
 
 Sitemap: https://lab.ibrahim-eng.dev/sitemap.xml
