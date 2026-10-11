@@ -112,14 +112,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "ItemList",
                 numberOfItems: 8,
                 itemListElement: [
-                  { "@type": "ListItem", position: 1, name: "The Illusion of Opportunity", url: "https://lab.ibrahim-eng.dev/illusion" },
-                  { "@type": "ListItem", position: 2, name: "The Weight of the Past", url: "https://lab.ibrahim-eng.dev/weight" },
-                  { "@type": "ListItem", position: 3, name: "The Endless Horizon", url: "https://lab.ibrahim-eng.dev/horizon" },
-                  { "@type": "ListItem", position: 4, name: "The Fragility of Connection", url: "https://lab.ibrahim-eng.dev/fragility" },
-                  { "@type": "ListItem", position: 5, name: "The Paradox of Choice", url: "https://lab.ibrahim-eng.dev/paradox" },
-                  { "@type": "ListItem", position: 6, name: "The Echo Chamber", url: "https://lab.ibrahim-eng.dev/echo" },
-                  { "@type": "ListItem", position: 7, name: "Selective Blindness", url: "https://lab.ibrahim-eng.dev/blindness" },
-                  { "@type": "ListItem", position: 8, name: "The Butterfly Effect", url: "https://lab.ibrahim-eng.dev/butterfly" }
+                  { "@type": "ListItem", position: 1, name: "The Illusion of Opportunity", url: "https://lab.ibrahim-eng.dev/illusion/" },
+                  { "@type": "ListItem", position: 2, name: "The Weight of the Past", url: "https://lab.ibrahim-eng.dev/weight/" },
+                  { "@type": "ListItem", position: 3, name: "The Endless Horizon", url: "https://lab.ibrahim-eng.dev/horizon/" },
+                  { "@type": "ListItem", position: 4, name: "The Fragility of Connection", url: "https://lab.ibrahim-eng.dev/fragility/" },
+                  { "@type": "ListItem", position: 5, name: "The Paradox of Choice", url: "https://lab.ibrahim-eng.dev/paradox/" },
+                  { "@type": "ListItem", position: 6, name: "The Echo Chamber", url: "https://lab.ibrahim-eng.dev/echo/" },
+                  { "@type": "ListItem", position: 7, name: "Selective Blindness", url: "https://lab.ibrahim-eng.dev/blindness/" },
+                  { "@type": "ListItem", position: 8, name: "The Butterfly Effect", url: "https://lab.ibrahim-eng.dev/butterfly/" }
                 ]
               }
             })

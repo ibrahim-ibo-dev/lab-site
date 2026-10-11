@@ -18,9 +18,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ]
 
   return [
-    { url: baseUrl, lastModified, changeFrequency: 'weekly', priority: 1 },
+    { url: `${baseUrl}/`, lastModified, changeFrequency: 'weekly', priority: 1 },
     ...pages.map((slug) => ({
-      url: `${baseUrl}/${slug}`,
+      url: `${baseUrl}/${slug}/`,
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.8,

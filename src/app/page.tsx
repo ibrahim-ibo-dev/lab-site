@@ -195,7 +195,7 @@ function ExperimentCard({ exp, index }: { exp: Experiment; index: number }) {
       className="h-full"
     >
       {exp.slug ? (
-        <Link href={`/${exp.slug}`} className="block h-full cursor-pointer">
+        <Link href={`/${exp.slug}/`} className="block h-full cursor-pointer">
           {card}
         </Link>
       ) : (
