@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 
 import { useEffect, useRef } from "react";
 
@@ -51,17 +52,7 @@ export default function WeightOfThePast() {
       vel = lerp(vel, d, 0.35);
       tx = nx; ty = ny;
     };
-    const onTouch = (e: TouchEvent) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      const nx = e.touches[0].clientX - r.left;
-      const ny = e.touches[0].clientY - r.top;
-      const d = Math.hypot(nx - tx, ny - ty);
-      vel = lerp(vel, d, 0.35);
-      tx = nx; ty = ny;
-    };
-    canvas.addEventListener("mousemove", onMove);
-    canvas.addEventListener("touchmove", onTouch, { passive: false });
+    const releasePointer=attachCanvasPointer(canvas,onMove);
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -229,8 +220,7 @@ export default function WeightOfThePast() {
 
     return () => {
       cancelAnimationFrame(raf);
-      canvas.removeEventListener("mousemove", onMove);
-      canvas.removeEventListener("touchmove", onTouch);
+      releasePointer();
       ro.disconnect();
     };
   }, []);

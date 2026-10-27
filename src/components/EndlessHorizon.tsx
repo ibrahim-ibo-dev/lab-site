@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
@@ -10,6 +11,7 @@ export default function EndlessHorizon() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = W; canvas.height = H;
@@ -28,7 +30,7 @@ export default function EndlessHorizon() {
     const GOAL_SPEED = 0.055;
     const MAX_AURORA = 12000;
 
-    canvas.addEventListener("mousemove", (e) => {
+    const onPointerMove=(e:PointerEvent)=>{
       const r = canvas.getBoundingClientRect();
       const nx = e.clientX - r.left, ny = e.clientY - r.top;
       const d = Math.hypot(nx - pmx, ny - pmy);
@@ -37,13 +39,8 @@ export default function EndlessHorizon() {
       const dg = Math.hypot(mx - gx, my - gy);
       if (dg < 350) { traveled = Math.min(traveled + d, MAX_AURORA); }
       aurora = traveled / MAX_AURORA;
-    });
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      mx = e.touches[0].clientX - r.left;
-      my = e.touches[0].clientY - r.top;
-    }, { passive: false });
+    };
+    const releasePointer=attachCanvasPointer(canvas,onPointerMove);
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -148,7 +145,7 @@ export default function EndlessHorizon() {
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { releasePointer(); cancelAnimationFrame(raf); ro.disconnect(); };
   }, []);
 
   return (

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import BrandFrame from "@/components/brand/BrandFrame";
+import "./unified-design.css";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
+const spaceGrotesk=localFont({src:"./fonts/SpaceGrotesk-Latin.woff2",weight:"300 700",variable:"--font-space-grotesk",display:"swap",fallback:["system-ui","sans-serif"]});
+
+import "./experimental-opening.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lab.ibrahim-eng.dev"),
@@ -42,10 +41,11 @@ export const metadata: Metadata = {
     url: "/",
     images: [
       {
-        url: "/og-image.png",
+        url: "/images/social/lab-home-2026-10.jpg",
         width: 1200,
         height: 630,
-        alt: "The Lab by Ibrahim Hussein",
+        alt: "The Lab — interactive experiments by Ibrahim Hussein",
+        type: "image/jpeg",
       },
     ],
   },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Lab — Code & Psychology",
     description: "Interactive web experiments by Ibrahim Hussein.",
-    images: ["/og-image.png"],
+    images: [{url:"/images/social/lab-home-2026-10.jpg",alt:"The Lab — interactive experiments by Ibrahim Hussein"}],
   },
   robots: {
     index: true,
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: [{url:"/brand/ih-app.svg",type:"image/svg+xml"},{url:"/brand/favicon-32.png",sizes:"32x32"}], apple:"/brand/apple-touch-icon.png" },
   verification: {
     google: "wKWJrIYHPaMID1jOpJwUKL-R8gI21Ut-laoXN7f_nXk",
   },
@@ -126,7 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         <CustomCursor />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll><BrandFrame freezeOnDetails>{children}</BrandFrame></SmoothScroll>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
@@ -17,6 +18,7 @@ export default function FragilityOfConnection() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = W; canvas.height = H;
@@ -41,20 +43,15 @@ export default function FragilityOfConnection() {
     const COOLDOWN_FRAMES = 180; // 3 sec at 60fps
 
     let pmx = mx, pmy = my;
-    canvas.addEventListener("mousemove", (e) => {
+    const onPointerMove=(e:PointerEvent)=>{
       const r = canvas.getBoundingClientRect();
       const nx = e.clientX - r.left, ny = e.clientY - r.top;
       rawSpeed = Math.hypot(nx - pmx, ny - pmy);
       speed = lerp(speed, rawSpeed, 0.5); // smooth
       pmx = mx; pmy = my;
       mx = nx; my = ny;
-    });
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      mx = e.touches[0].clientX - r.left;
-      my = e.touches[0].clientY - r.top;
-    }, { passive: false });
+    };
+    const releasePointer=attachCanvasPointer(canvas,onPointerMove);
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -203,7 +200,7 @@ export default function FragilityOfConnection() {
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { releasePointer(); cancelAnimationFrame(raf); ro.disconnect(); };
   }, []);
 
   return (

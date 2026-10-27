@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 interface Dot {
@@ -16,6 +17,7 @@ export default function ButterflyEffect() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = W; canvas.height = H;
@@ -53,15 +55,10 @@ export default function ButterflyEffect() {
       dots.forEach(d => { d.active = false; d.phase = 0; d.amp = 0; d.x = d.ox; d.y = d.oy; });
     }
 
-    canvas.addEventListener("click", (e) => {
-      const r = canvas.getBoundingClientRect();
-      startWave(e.clientX - r.left, e.clientY - r.top);
-    });
-    canvas.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      startWave(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top);
-    }, { passive: false });
+    const releasePointer=attachCanvasPointer(canvas,(event)=>{
+      const rect=canvas.getBoundingClientRect();
+      startWave(event.clientX-rect.left,event.clientY-rect.top);
+    },{move:false});
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -141,7 +138,7 @@ export default function ButterflyEffect() {
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { releasePointer(); cancelAnimationFrame(raf); ro.disconnect(); };
   }, []);
 
   return (

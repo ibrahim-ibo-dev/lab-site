@@ -1,0 +1,55 @@
+.nx-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  background: #080d1b;
+}
+
+/* A static initial shader frame replaces the unrelated CSS ribbons, so the
+   first server-rendered paint already has the finished background's geometry. */
+.nx-aurora-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #080d1b;
+}
+.nx-aurora-fallback img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.nx-aurora-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 240ms ease-out;
+}
+.nx-aurora-ready .nx-aurora-canvas { opacity: 1; }
+.nx-aurora-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+.nx-aurora-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(180deg, #05081718, transparent 22%, #05081712), radial-gradient(ellipse at center, transparent 30%, #06091430);
+}
+@media (prefers-reduced-motion: reduce) {
+  .nx-aurora-canvas { transition: none; }
+}

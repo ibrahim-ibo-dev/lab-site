@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function ExperimentHeader({title}:{title:string}){return <header className="experiment-brand-header"><div><Link href="/" className="experiment-brand-back" aria-label="Back to all Lab experiments"><span className="brand-monogram">ih<span>.</span></span><span>← The Lab</span></Link><span className="experiment-brand-title">{title}</span><a className="brand-contact-link" href="https://ibrahim-eng.dev">Portfolio <span>↗</span></a></div></header>;}

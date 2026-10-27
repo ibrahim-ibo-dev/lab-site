@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 
 import { useEffect, useRef } from "react";
 
@@ -49,15 +50,8 @@ export default function IllusionCanvas() {
       ty = e.clientY - rect.top;
     };
 
-    const onTouch = (e: TouchEvent) => {
-      e.preventDefault();
-      const rect = canvas.getBoundingClientRect();
-      tx = e.touches[0].clientX - rect.left;
-      ty = e.touches[0].clientY - rect.top;
-    };
 
-    canvas.addEventListener("mousemove", onMove);
-    canvas.addEventListener("touchmove", onTouch, { passive: false });
+    const releasePointer=attachCanvasPointer(canvas,onMove);
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth;
@@ -201,8 +195,7 @@ export default function IllusionCanvas() {
 
     return () => {
       cancelAnimationFrame(raf);
-      canvas.removeEventListener("mousemove", onMove);
-      canvas.removeEventListener("touchmove", onTouch);
+      releasePointer();
       ro.disconnect();
     };
   }, []);

@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
@@ -21,6 +22,7 @@ export default function SelectiveBlindness() {
     const overlay = overlayRef.current;
     if (!container || !overlay) return;
     const ctx = overlay.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = container.clientWidth, H = container.clientHeight;
     overlay.width = W; overlay.height = H;
@@ -48,13 +50,7 @@ export default function SelectiveBlindness() {
       pmx = mx; pmy = my;
       mx = nx; my = ny;
     };
-    overlay.addEventListener("mousemove", onMove);
-    overlay.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const r = overlay.getBoundingClientRect();
-      mx = e.touches[0].clientX - r.left;
-      my = e.touches[0].clientY - r.top;
-    }, { passive: false });
+    const releasePointer=attachCanvasPointer(overlay,onMove);
 
     const ro = new ResizeObserver(() => {
       W = container.clientWidth; H = container.clientHeight;
@@ -142,7 +138,7 @@ export default function SelectiveBlindness() {
     ctx.fillRect(0, 0, W, H);
 
     tick();
-    return () => { cancelAnimationFrame(raf); overlay.removeEventListener("mousemove", onMove); ro.disconnect(); };
+    return () => { cancelAnimationFrame(raf); releasePointer(); ro.disconnect(); };
   }, []);
 
   return (

@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 interface Node {
@@ -23,6 +24,7 @@ export default function ParadoxOfChoice() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = W; canvas.height = H;
@@ -52,14 +54,7 @@ export default function ParadoxOfChoice() {
       outsideRef.current = false;
     };
     const onMouseLeave = () => { outsideRef.current = true; };
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mouseleave", onMouseLeave);
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      mxRef.current = e.touches[0].clientX - r.left;
-      myRef.current = e.touches[0].clientY - r.top;
-    }, { passive: false });
+    const releasePointer=attachCanvasPointer(canvas,onMouseMove,{onLeave:onMouseLeave});
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -178,7 +173,7 @@ export default function ParadoxOfChoice() {
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); canvas.removeEventListener("mousemove", onMouseMove); canvas.removeEventListener("mouseleave", onMouseLeave); ro.disconnect(); };
+    return () => { cancelAnimationFrame(raf); releasePointer(); ro.disconnect(); };
   }, []);
 
   return (

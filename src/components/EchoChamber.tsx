@@ -1,4 +1,5 @@
 "use client";
+import {attachCanvasPointer} from "./canvas-input";
 import { useEffect, useRef } from "react";
 
 function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
@@ -18,6 +19,7 @@ export default function EchoChamber() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+    if (!ctx) return;
 
     let W = canvas.clientWidth, H = canvas.clientHeight;
     canvas.width = W; canvas.height = H;
@@ -36,20 +38,15 @@ export default function EchoChamber() {
     let swipeRaw = 0;       // raw per-frame speed
     let swipeSpeed = 0;     // smoothed speed for smash detection
 
-    canvas.addEventListener("mousemove", (e) => {
+    const onPointerMove=(e:PointerEvent)=>{
       const r = canvas.getBoundingClientRect();
       const nx = e.clientX - r.left, ny = e.clientY - r.top;
       swipeRaw = Math.hypot(nx - pmx, ny - pmy);
       swipeSpeed = lerp(swipeSpeed, swipeRaw, 0.55);
       pmx = mx; pmy = my;
       mx = nx; my = ny;
-    });
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      mx = e.touches[0].clientX - r.left;
-      my = e.touches[0].clientY - r.top;
-    }, { passive: false });
+    };
+    const releasePointer=attachCanvasPointer(canvas,onPointerMove);
 
     const ro = new ResizeObserver(() => {
       W = canvas.clientWidth; H = canvas.clientHeight;
@@ -207,7 +204,7 @@ export default function EchoChamber() {
     }
 
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { releasePointer(); cancelAnimationFrame(raf); ro.disconnect(); };
   }, []);
 
   return (

@@ -1,3 +1,10 @@
 ﻿node_modules
 .next
 .env
+
+# Local configuration and generated cache
+.env*
+!.env.example
+.vercel/
+*.log
+*.tsbuildinfo

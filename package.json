@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "test:seo": "node --test seo.test.mjs",
+    "test:input": "node --test input.test.cjs",
     "start": "next start",
     "lint": "next lint"
   },

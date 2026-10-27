@@ -1,0 +1,40 @@
+/* The cursor is decorative; focus, text editing and canvas controls stay native. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .ih-custom-cursor-active,
+  .ih-custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+.ih-cursor {
+  pointer-events: none;
+}
+
+.ih-cursor-ring,
+.ih-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+.ih-cursor-ring {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(225, 227, 234, 0.48);
+  background-color: rgba(232, 186, 145, 0);
+  box-shadow: 0 0 0 1px rgba(7, 12, 22, 0.16);
+}
+
+.ih-cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: #b2d8d3;
+  box-shadow: 0 0 0 1px rgba(7, 12, 22, 0.5);
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .ih-cursor { display: none; }
+}
